@@ -13,6 +13,26 @@ object Vector {
   def apply[T:ClassTag](values:T*) = {
     new Vector(values.toArray)
   }
+
+  /**
+   * Creates a new Vector padded with zeros.
+   * @param length the number of zeros to include
+   * @tparam T the numeric type that 0 should be cast to
+   * @return a new Vector padded with zeros
+   */
+  def zeros[T:ClassTag](length:Int)(implicit num:Numeric[T]):Vector[T] = {
+    new Vector(Array.fill(length) { num.zero })
+  }
+
+  /**
+   * Creates a new Vector padded with ones.
+   * @param length the number of ones to include
+   * @tparam T the numeric type that 1 should be cast to
+   * @return a new Vector padded with ones
+   */
+  def ones[T:ClassTag](length:Int)(implicit num:Numeric[T]):Vector[T] = {
+    new Vector(Array.fill(length) { num.one })
+  }
 }
 
 /**

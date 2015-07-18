@@ -7,4 +7,5 @@ If you need a robust solution, please see [Breeze](https://github.com/scalanlp/b
 
 ## Build
 [Travis CI](http://travis-ci.org/) is used to build and test all commits.
+
 Status: [![Build Status](https://travis-ci.org/phillipjohnson/scalinear.svg?branch=master)](https://travis-ci.org/phillipjohnson/scalinear)

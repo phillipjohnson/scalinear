@@ -11,6 +11,24 @@ class VectorSpec extends UnitSpec {
     myVector(1) should be (2)
     myVector(2) should be (3)
   }
+  it can "also be created from zeros" in {
+    val myVector:Vector[Int] = Vector.zeros(5)
+    myVector(0) should be (0)
+    myVector.length should be (5)
+
+    val myFloatVector:Vector[Float] = Vector.zeros(5)
+    myFloatVector(0) should be (0.0f)
+    myFloatVector.length should be (5)
+  }
+  it can "also be created from ones" in {
+    val myVector:Vector[Int] = Vector.ones(5)
+    myVector(0) should be (1)
+    myVector.length should be (5)
+
+    val myFloatVector:Vector[Float] = Vector.ones(5)
+    myFloatVector(0) should be (1.0f)
+    myFloatVector.length should be (5)
+  }
   it should "have a length equal to the number of elements" in {
     Vector().length should be (0)
     Vector(1).length should be (1)
