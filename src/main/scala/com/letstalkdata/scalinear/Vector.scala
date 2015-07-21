@@ -44,7 +44,7 @@ object Vector {
  * Author: Phillip Johnson
  * Date: 7/6/15
  */
-class Vector[T] private(val values:Array[T]) {
+class Vector[T] private(private val values:Array[T]) {
 
   /**
    * Returns the item at the given index.
@@ -80,12 +80,13 @@ class Vector[T] private(val values:Array[T]) {
   }
 
   /**
-   * Adds two Vectors by summing the elements at each index.
+   * Returns the sum of this Vector and a given Vector.
    *
-   * For example `Vector(1,2,3) + Vector(2,2,2)` yields `Vector(3,4,5)`
+   * This operation adds the elements at each index.
+   * For example: `Vector(1,2,3) + Vector(2,2,2)` yields `Vector(3,4,5)`
    *
    * @param that the Vector to add
-   * @return the resulting Vector
+   * @return the sum of this Vector and a given Vector.
    */
   def +[S >: T:ClassTag](that:Vector[T])(implicit num:Numeric[S]):Vector[S] = {
     require(this.length == that.length, "Vectors must be of same length.")
@@ -94,10 +95,10 @@ class Vector[T] private(val values:Array[T]) {
   }
 
   /**
-   * Element-wise addition.
+   * Returns the sum of this Vector's elements and a given number.
    *
-   * Adds a number to every element in the Vector. For example
-   * `Vector(1,2,3) + 2` yields `Vector(3,4,5)`
+   * Adds the given number to every element in the Vector.
+   * For example: `Vector(1,2,3) + 2` yields `Vector(3,4,5)`
    *
    * @param n the number to add
    * @return the resulting Vector
@@ -107,9 +108,10 @@ class Vector[T] private(val values:Array[T]) {
   }
 
   /**
-   * Subtracts a Vector from this Vector by subtracting the elements at each index.
+   * Returns the difference of this Vector and a given Vector.
    *
-   * For example `Vector(1,2,3) - Vector(2,2,2)` yields `Vector(-1,0,1)`
+   * This operation subtracts the elements at each index.
+   * For example: `Vector(1,2,3) - Vector(2,2,2)` yields `Vector(-1,0,1)`
    *
    * @param that the Vector to subtract
    * @return the resulting Vector
@@ -121,23 +123,23 @@ class Vector[T] private(val values:Array[T]) {
   }
 
   /**
-   * Element-wise subtraction.
+   * Returns the difference of this Vector's elements and a given number.
    *
-   * Subtracts a number from every element in the Vector. For example
-   * `Vector(1,2,3) - 2` yields `Vector(-1,0,1)`
+   * Subtracts the number from every element in the Vector.
+   * For example: `Vector(1,2,3) - 2` yields `Vector(-1,0,1)`
    *
    * @param n the number to subtract
-   * @return the resulting Vector
+   * @return the difference of this Vector's elements and a given number.
    */
   def -[S >: T:ClassTag](n:T)(implicit num:Numeric[S]):Vector[S] = {
     new Vector(this.values.map(m => num.minus(m, n)))
   }
 
   /**
-   * Element-wise multiplication.
+   * Returns this Vector scaled by a magnitude.
    *
-   * Scales every element in the Vector by a given magnitude. For example
-   * `Vector(1,2,3) * 2` yields `Vector(2,4,6)`
+   * This operation multiplies every element in the Vector by the given magnitude.
+   * For example: `Vector(1,2,3) * 2` yields `Vector(2,4,6)`.
    *
    * @param r the number to scale by
    * @return the resulting Vector
@@ -147,9 +149,9 @@ class Vector[T] private(val values:Array[T]) {
   }
 
   /**
-   * Element-wise division.
+   * Returns the quotient of this Vector's elements and a given number.
    *
-   * Divides every element in the Vector by a number. For example
+   * This operation divides every element in the Vector by the given number. For example
    * `Vector(2.0, 4.0, 6.0) / 2` yields `Vector(1.0, 2.0, 3.0)`
    *
    * @param n the number to divide by
@@ -167,7 +169,7 @@ class Vector[T] private(val values:Array[T]) {
    * Alias for [[dot]].
    *
    * @param that the other Vector to dot product multiply by
-   * @return the resulting Vector
+   * @return the dot product of the Vectors.
    */
   def ∙[S >: T:ClassTag](that:Vector[T])(implicit num:Numeric[S]):S = {
     dot[S](that)
@@ -176,7 +178,7 @@ class Vector[T] private(val values:Array[T]) {
   /**
    * Returns the dot product of the Vectors.
    * @param that the other Vector to dot product multiply by
-   * @return the resulting Vector
+   * @return the dot product of the Vectors.
    */
   def dot[S >: T:ClassTag](that:Vector[T])(implicit num:Numeric[S]):S = {
     require(this.length == that.length, "Vectors must be of same length.")
