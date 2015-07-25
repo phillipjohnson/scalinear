@@ -136,7 +136,7 @@ class Vector[T] private(private val values:Array[T]) {
   }
 
   /**
-   * Returns this Vector scaled by a magnitude.
+   * Returns a copy of this Vector scaled by a magnitude.
    *
    * This operation multiplies every element in the Vector by the given magnitude.
    * For example: `Vector(1,2,3) * 2` yields `Vector(2,4,6)`.
@@ -212,6 +212,8 @@ class Vector[T] private(private val values:Array[T]) {
     new Vector(values ++ xs.values)
   }
 
+
+  override def toString = values mkString("[", ", ", "]")
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Vector[T]]
 
