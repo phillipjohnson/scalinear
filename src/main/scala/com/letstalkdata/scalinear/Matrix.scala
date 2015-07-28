@@ -63,6 +63,8 @@ object Matrix {
 /**
  * A two-dimensional matrix containing one or more Vectors of type T.
  *
+ * Matrices are row-major
+ *
  * Author: Phillip Johnson
  * Date: 7/6/15
  */
@@ -89,8 +91,8 @@ class Matrix[T] private(private val values:Array[Vector[T]]) {
   def cols = if(rows > 0) values(0).length else 0
 
   /**
-   * Returns the matrix as an array of Vectors
-   * @return the matrix as an array of Vectors
+   * Returns the matrix as an array of row Vectors
+   * @return the matrix as an array of row Vectors
    */
   def asArray:Array[Vector[T]] = values
 
@@ -111,6 +113,17 @@ class Matrix[T] private(private val values:Array[Vector[T]]) {
   }
 
   /**
+   * Returns the sum of this Matrix's elements and a given number
+   * @param n the Matrix to add
+   * @return the sum of this Matrix's elements and a given number
+   */
+  def +[S >: T:ClassTag](n:T)(implicit num:Numeric[S]):Matrix[S] = {
+    new Matrix(values.map(row =>
+      Vector(row.asArray.map(v =>
+        num.plus(v, n)):_*)))
+  }
+
+  /**
    * Returns the difference of this Matrix and another Matrix
    * @param that the Matrix to subtract
    * @return the difference of this Matrix and another Matrix
@@ -123,6 +136,17 @@ class Matrix[T] private(private val values:Array[Vector[T]]) {
     new Matrix(this.values zip that.values map(pair =>
       Vector((pair._1.asArray zip pair._2.asArray).map(numbers =>
         num.minus(numbers._1, numbers._2)):_*)))
+  }
+
+  /**
+   * Returns the difference of this Matrix's elements and a given number
+   * @param n the Matrix to subtract
+   * @return the difference of this Matrix's elements and a given number
+   */
+  def -[S >: T:ClassTag](n:T)(implicit num:Numeric[S]):Matrix[S] = {
+    new Matrix(values.map(row =>
+      Vector(row.asArray.map(v =>
+        num.minus(v, n)):_*)))
   }
 
   /**
@@ -140,7 +164,7 @@ class Matrix[T] private(private val values:Array[Vector[T]]) {
    * @return the product of this Matrix and another Matrix.
    */
   def *[S >: T:ClassTag](that:Matrix[S])(implicit num:Numeric[S]):Matrix[S] = {
-    require(this.rows == that.cols, "The number of rows in Matrix A must equal the number of columns in Matrix B.")
+    require(this.cols == that.rows, "The number of columns in Matrix A must equal the number of rows in Matrix B.")
 
     val result = Matrix.zeros(rows)
 
@@ -168,6 +192,10 @@ class Matrix[T] private(private val values:Array[Vector[T]]) {
     }
 
     result
+  }
+
+  def flatten[S >: T:ClassTag]:Vector[S] = {
+    values.foldLeft(Vector[S]())((b, a) => Vector(b.asArray ++ a.asArray:_*))
   }
 
   /**

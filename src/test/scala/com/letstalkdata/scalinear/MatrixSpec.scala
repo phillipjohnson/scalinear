@@ -13,6 +13,10 @@ class MatrixSpec extends UnitSpec {
     myMatrix(2,2) should be(9)
 
   }
+  it can "be large or small" in {
+    val big = Matrix.eye[Int](10000)
+    val small = Matrix[Int]()
+  }
   it must "have the same number of elements in each row" in {
     intercept[IllegalArgumentException] {
       Matrix(Vector(1,2), Vector(1))
@@ -45,6 +49,10 @@ class MatrixSpec extends UnitSpec {
     val myOnes = Matrix.zeros[Double](4)
     assert(myOnes.asArray.forall(vector => vector.asArray.forall(n => n == 0.0)))
   }
+  it can "be flattened" in {
+    val myMatrix = Matrix(Vector(1,2), Vector(3,4), Vector(5,6))
+    myMatrix.flatten should equal(Vector(1,2,3,4,5,6))
+  }
   it should "be equal to an identical Matrix" in {
     val one = Matrix[Int](Vector(1,2,3), Vector(4,5,6))
     val two = Matrix[Int](Vector(1,2,3), Vector(4,5,6))
@@ -71,6 +79,18 @@ class MatrixSpec extends UnitSpec {
     myMatrix(2,0) should be (1)
     myMatrix(2,1) should be (1)
     myMatrix(2,2) should be (2)
+  }
+  they can "be element-wise added to" in {
+    val a = Matrix[Int](Vector(1,2,3), Vector(4,5,6))
+    val b = a + 7
+
+    b should equal(Matrix(Vector(8, 9, 10), Vector(11, 12, 13)))
+  }
+  they can "be element-wise sibtracted from" in {
+    val a = Matrix[Int](Vector(1,2,3), Vector(4,5,6))
+    val b = a - 7
+
+    b should equal(Matrix(Vector(-6, -5, -4), Vector(-3, -2, -1)))
   }
   they can "be subtracted" in {
     val a:Matrix[Int] = Matrix.eye(3)
@@ -105,6 +125,14 @@ class MatrixSpec extends UnitSpec {
     multiplied(1,0) should be(-6)
     multiplied(1,1) should be(-7)
 
+  }
+  they must "have proper dimensions to be multiplied" in {
+    val A = Matrix(Vector(1,2), Vector(3,4))
+    val B = Matrix(Vector(1), Vector(2), Vector(3))
+
+    intercept[IllegalArgumentException] {
+      A * B
+    }
   }
   they can "be transposed" in {
     val myMatrix = Matrix(Vector(1,2,3),Vector(4,5,6))
