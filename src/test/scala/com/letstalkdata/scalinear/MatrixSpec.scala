@@ -65,6 +65,14 @@ class MatrixSpec extends UnitSpec {
 
     one should not equal(two)
   }
+
+  it can "transform a vector" in {
+    val myMatrix = Matrix(Vector(2,0), Vector(0,1))
+    val myVector = Vector(42, 79)
+    val resVector = myMatrix * myVector
+    resVector should equal(Vector(84, 79))
+  }
+
   "Matrices" can "be added" in {
     val a:Matrix[Int] = Matrix.eye(3)
     val b:Matrix[Int] = Matrix.ones(3)

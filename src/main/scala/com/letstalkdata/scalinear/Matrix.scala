@@ -166,7 +166,7 @@ class Matrix[T] private(private val values:Array[Vector[T]]) {
   def *[S >: T:ClassTag](that:Matrix[S])(implicit num:Numeric[S]):Matrix[S] = {
     require(this.cols == that.rows, "The number of columns in Matrix A must equal the number of rows in Matrix B.")
 
-    val result = Matrix.zeros(rows)
+    val result = Matrix.zeros(rows, that.cols)
 
     for(
       (rowVec, row) <- this.values.zipWithIndex;
@@ -176,6 +176,13 @@ class Matrix[T] private(private val values:Array[Vector[T]]) {
     }
 
     result
+  }
+
+  /** @return the matrix vector product of this matrix and a given vector */
+  def *[S >: T:ClassTag](that:Vector[S])(implicit num:Numeric[S]):Vector[S] = {
+    val rows: Array[Vector[S]] = that.asArray.map(Vector(_))
+    val resMatrix = this * Matrix[S](rows:_*)
+    resMatrix.flatten
   }
 
   /**
