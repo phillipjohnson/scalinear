@@ -10,4 +10,4 @@ crossScalaVersions := Seq("2.11.11", "2.12.2")
 
 exportJars := true
 
-libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1"

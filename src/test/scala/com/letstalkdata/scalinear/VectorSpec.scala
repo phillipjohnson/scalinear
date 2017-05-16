@@ -132,5 +132,8 @@ class VectorSpec extends UnitSpec {
     Vector(3, 3, 3).dot(Vector(2, 2, 2)) should equal(18)
     Vector(-2.0, -5.0, 7.0) ∙ Vector(3.0, 1.0, 0.0) should equal(-11.0)
   }
+  they can "be negated with a unary" in {
+    -Vector(2, 2, 2) should be (Vector(-2, -2, -2))
+  }
 
 }
