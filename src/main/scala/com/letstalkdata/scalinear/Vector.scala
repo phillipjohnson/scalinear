@@ -148,6 +148,11 @@ class Vector[T] private(private val values:Array[T]) {
     new Vector(values.map(n => num.times(n, r)))
   }
 
+  /** @return a copy of this Vector with its values negated. */
+  def unary_-[S >: T:ClassTag](implicit num:Numeric[T]): Vector[S] = {
+    new Vector(values.map(n => num.negate(n)))
+  }
+
   /**
    * Returns the quotient of this Vector's elements and a given number.
    *
